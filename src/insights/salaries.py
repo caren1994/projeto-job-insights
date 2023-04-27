@@ -1,40 +1,33 @@
 from typing import Union, List, Dict
+from src.insights.jobs import read
 
 
 def get_max_salary(path: str) -> int:
-    """Get the maximum salary of all jobs
+    read_csv = read(path)
+    return max(
+        [
+            int(salary["max_salary"])
+            for salary in read_csv
+            if salary["max_salary"].isnumeric()
+        ]
+    )
 
-    Must call `read`
 
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
-
-    Returns
-    -------
-    int
-        The maximum salary paid out of all job opportunities
-    """
-    raise NotImplementedError
+# Em Python, isnumeric() é um método embutido usado para
+#  manipulação de strings. O método issnumeric() retorna
+# “True” se todos os caracteres da string forem numéricos,
+# caso contrário, retorna “False”
 
 
 def get_min_salary(path: str) -> int:
-    """Get the minimum salary of all jobs
-
-    Must call `read`
-
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
-
-    Returns
-    -------
-    int
-        The minimum salary paid out of all job opportunities
-    """
-    raise NotImplementedError
+    read_csv = read(path)
+    return min(
+        [
+            int(salary["min_salary"])
+            for salary in read_csv
+            if salary["min_salary"].isnumeric()
+        ]
+    )
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
@@ -64,8 +57,7 @@ def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
 
 
 def filter_by_salary_range(
-    jobs: List[dict],
-    salary: Union[str, int]
+    jobs: List[dict], salary: Union[str, int]
 ) -> List[Dict]:
     """Filters a list of jobs by salary range
 
